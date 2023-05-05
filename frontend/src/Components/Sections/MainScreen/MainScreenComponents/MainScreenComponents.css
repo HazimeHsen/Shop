@@ -1,0 +1,8 @@
+.dis {
+  cursor: no-drop !important;
+}
+.product-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
