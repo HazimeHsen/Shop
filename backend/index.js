@@ -6,8 +6,8 @@ const productRouter = require("./routes/productRoutes.js");
 const userRouter = require("./routes/userRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
 const uploadRouter = require("./routes/uploadRoutes.js");
-const path = require("path");
 const app = express();
+const path = require("path");
 
 dotenv.config();
 const port = process.env.PORT || 5000;

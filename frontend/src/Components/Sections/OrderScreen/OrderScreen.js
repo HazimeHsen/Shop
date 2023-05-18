@@ -144,7 +144,7 @@ export const OrderScreen = () => {
                       <Row className="align-items-center">
                         <Col md={6}>
                           <img
-                            src={item.image}
+                            src={item.image[0]}
                             alt={item.name}
                             className="img-fluid img-thumbnail rounded"
                           />{" "}

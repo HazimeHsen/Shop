@@ -60,16 +60,18 @@ export const UserListScreen = () => {
     }
   }, [successDelete, userInfo]);
   const DeleteUser = async (id) => {
-    try {
-      dispatch({ type: "DELETE_REQUEST" });
-      await axios.delete(`/api/users/delete/${id}`);
-      toast.success("user deleted successfully");
-      dispatch({ type: "DELETE_SUCCESS" });
-    } catch (error) {
-      toast.error(ErrorCatch(error));
-      dispatch({
-        type: "DELETE_FAIL",
-      });
+    if (window.confirm("Are you sure to delete?")) {
+      try {
+        dispatch({ type: "DELETE_REQUEST" });
+        await axios.delete(`/api/users/delete/${id}`);
+        toast.success("user deleted successfully");
+        dispatch({ type: "DELETE_SUCCESS" });
+      } catch (error) {
+        toast.error(ErrorCatch(error));
+        dispatch({
+          type: "DELETE_FAIL",
+        });
+      }
     }
   };
   return (
@@ -127,7 +129,6 @@ export const UserListScreen = () => {
                   <td>
                     <Button
                       className="me-1 "
-                      variant="light"
                       type="button"
                       onClick={() => {
                         navigate(`/admin/user/${user._id}`);
@@ -135,7 +136,7 @@ export const UserListScreen = () => {
                       Edit
                     </Button>
                     <Button
-                      variant="light"
+                      variant="danger"
                       type="button"
                       onClick={() => {
                         DeleteUser(user._id);

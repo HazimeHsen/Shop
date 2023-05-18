@@ -6,11 +6,24 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../Store/Store";
 import SearchBox from "../SearchBox/SearchBox";
+import { GiHamburgerMenu } from "react-icons/gi";
 function NavBar({ sideBar, setSideBar }) {
   const { state, dispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
   const [visible, setVisible] = useState(true);
+  const title = userInfo ? (
+    <span>
+      <img
+        className="me-1 profile-image"
+        src={userInfo.image}
+        alt={userInfo.name}
+      />{" "}
+      <span>{userInfo.name}</span>
+    </span>
+  ) : (
+    ""
+  );
   const signoutHandler = () => {
     dispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
@@ -45,7 +58,7 @@ function NavBar({ sideBar, setSideBar }) {
           className="nav-side-bar-btn"
           variant="dark"
           onClick={() => setSideBar(!sideBar)}>
-          <i className="fas fa-bars"></i>
+          <GiHamburgerMenu />
         </Button>
         <LinkContainer to="/">
           <Navbar.Brand>Shop</Navbar.Brand>
@@ -53,8 +66,8 @@ function NavBar({ sideBar, setSideBar }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <SearchBox />
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            <Link className="nav-link" to="/cart">
+          <Nav className="justify-content-end flex-grow-1 pe-3 align-items-center">
+            <Link className="nav-link me-3" to="/cart">
               Cart
               {cart.cartItems.length > 0 && (
                 <Badge pill bg="danger">
@@ -62,22 +75,25 @@ function NavBar({ sideBar, setSideBar }) {
                 </Badge>
               )}
             </Link>
+
             {userInfo ? (
-              <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                <LinkContainer to="/profile">
-                  <NavDropdown.Item>User Profile</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/orderhistory">
-                  <NavDropdown.Item>Order History</NavDropdown.Item>
-                </LinkContainer>
-                <NavDropdown.Divider />
-                <Link
-                  className="dropdown-item"
-                  to="/signin"
-                  onClick={signoutHandler}>
-                  Sign Out
-                </Link>
-              </NavDropdown>
+              <>
+                <NavDropdown title={title} id="basic-nav-dropdown">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>User Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/orderhistory">
+                    <NavDropdown.Item>Order History</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Divider />
+                  <Link
+                    className="dropdown-item"
+                    to="/signin"
+                    onClick={signoutHandler}>
+                    Sign Out
+                  </Link>
+                </NavDropdown>
+              </>
             ) : (
               <Link className="nav-link" to="/signin">
                 Sign In

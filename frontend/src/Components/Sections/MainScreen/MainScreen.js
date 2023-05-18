@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-// import data from "../../../data";
 import "./MainScreen.css";
 import { Col, Container, Row } from "react-bootstrap";
 import axios from "axios";

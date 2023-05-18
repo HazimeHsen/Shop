@@ -1,4 +1,5 @@
 import React from "react";
+import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 
 export default function StarsComponent({ stars, setStars, click }) {
   function doNothing() {
@@ -6,71 +7,66 @@ export default function StarsComponent({ stars, setStars, click }) {
   }
   return (
     <div className={click ? " rating clicking" : "rating"}>
-      <i
+      <span
         onClick={(e) => {
-          click ? setStars(e.target.id) : doNothing();
-        }}
-        id="1"
-        className={
-          stars >= 1
-            ? "fas fa-star"
-            : stars >= 0.5
-            ? "fas fa-star-half-alt"
-            : "far fa-star"
-        }
-      />
-      <i
+          click ? setStars(1) : doNothing();
+        }}>
+        {stars >= 1 ? (
+          <BsStarFill />
+        ) : stars >= 0.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
+      </span>
+      <span
         onClick={(e) => {
-          click ? setStars(e.target.id) : doNothing();
-        }}
-        id="2"
-        className={
-          stars >= 2
-            ? "fas fa-star"
-            : stars >= 1.5
-            ? "fas fa-star-half-alt"
-            : "far fa-star"
-        }
-      />
-      <i
+          click ? setStars(2) : doNothing();
+        }}>
+        {stars >= 2 ? (
+          <BsStarFill />
+        ) : stars >= 1.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
+      </span>
+      <span
         onClick={(e) => {
-          click ? setStars(e.target.id) : doNothing();
-        }}
-        id="3"
-        className={
-          stars >= 3
-            ? "fas fa-star"
-            : stars >= 2.5
-            ? "fas fa-star-half-alt"
-            : "far fa-star"
-        }
-      />
-      <i
+          click ? setStars(3) : doNothing();
+        }}>
+        {stars >= 3 ? (
+          <BsStarFill />
+        ) : stars >= 2.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
+      </span>
+      <span
         onClick={(e) => {
-          click ? setStars(e.target.id) : doNothing();
-        }}
-        id="4"
-        className={
-          stars >= 4
-            ? "fas fa-star"
-            : stars >= 3.5
-            ? "fas fa-star-half-alt"
-            : "far fa-star"
-        }
-      />
-      <i
+          click ? setStars(4) : doNothing();
+        }}>
+        {stars >= 4 ? (
+          <BsStarFill />
+        ) : stars >= 3.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
+      </span>
+      <span
         onClick={(e) => {
-          click ? setStars(e.target.id) : doNothing();
-        }}
-        id="5"
-        className={
-          stars >= 5
-            ? "fas fa-star"
-            : stars >= 4.5
-            ? "fas fa-star-half-alt"
-            : "far fa-star"
-        }
-      />
+          click ? setStars(5) : doNothing();
+        }}>
+        {stars >= 5 ? (
+          <BsStarFill />
+        ) : stars >= 4.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
+      </span>
     </div>
   );
 }

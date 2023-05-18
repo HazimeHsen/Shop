@@ -1,62 +1,54 @@
 import React from "react";
 import "./Rating.css";
+import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+
 const Rating = ({ rating, numReviews, caption }) => {
   return (
-    <div className="rating">
+    <div className={"rating"}>
       <span>
-        <i
-          className={
-            rating >= 1
-              ? "fas fa-star"
-              : rating >= 0.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star"
-          }
-        />
+        {rating >= 1 ? (
+          <BsStarFill />
+        ) : rating >= 0.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
       </span>
       <span>
-        <i
-          className={
-            rating >= 2
-              ? "fas fa-star"
-              : rating >= 1.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star"
-          }
-        />
+        {rating >= 2 ? (
+          <BsStarFill />
+        ) : rating >= 1.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
       </span>
       <span>
-        <i
-          className={
-            rating >= 3
-              ? "fas fa-star"
-              : rating >= 2.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star"
-          }
-        />
+        {rating >= 3 ? (
+          <BsStarFill />
+        ) : rating >= 2.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
       </span>
       <span>
-        <i
-          className={
-            rating >= 4
-              ? "fas fa-star"
-              : rating >= 3.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star"
-          }
-        />
+        {rating >= 4 ? (
+          <BsStarFill />
+        ) : rating >= 3.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
       </span>
       <span>
-        <i
-          className={
-            rating >= 5
-              ? "fas fa-star"
-              : rating >= 4.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star"
-          }
-        />
+        {rating >= 5 ? (
+          <BsStarFill />
+        ) : rating >= 4.5 ? (
+          <BsStarHalf />
+        ) : (
+          <BsStar />
+        )}
       </span>
       {caption ? (
         <span>{caption}</span>

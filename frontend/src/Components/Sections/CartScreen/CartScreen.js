@@ -5,7 +5,8 @@ import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../../MessageBox/MessageBox";
 import { Link, useNavigate } from "react-router-dom";
 import "./CartScreen.css";
-
+import { HiOutlinePlusCircle, HiOutlineMinusCircle } from "react-icons/hi";
+import { BsTrash } from "react-icons/bs";
 export const CartScreen = () => {
   const { state, dispatch } = useContext(Store);
   const {
@@ -45,7 +46,7 @@ export const CartScreen = () => {
                     <Row className="align-items-center">
                       <Col md={4}>
                         <img
-                          src={item.image}
+                          src={item.image[0]}
                           alt={item.name}
                           className=" img-fluid rounded img-thumbnail"
                         />{" "}
@@ -58,7 +59,7 @@ export const CartScreen = () => {
                             updateCartHandler(item, item.quantity - 1)
                           }
                           disabled={item.quantity === 1}>
-                          <i className="fas fa-minus-circle"></i>
+                          <HiOutlineMinusCircle />
                         </Button>{" "}
                         <span>{item.quantity}</span>{" "}
                         <Button
@@ -67,7 +68,7 @@ export const CartScreen = () => {
                             updateCartHandler(item, item.quantity + 1)
                           }
                           disabled={item.quantity === item.countInStock}>
-                          <i className="fas fa-plus-circle"></i>
+                          <HiOutlinePlusCircle />
                         </Button>
                       </Col>
                       <Col md={3}>${item.price}</Col>
@@ -75,7 +76,7 @@ export const CartScreen = () => {
                         <Button
                           onClick={() => removeItemHandler(item)}
                           variant="ligth">
-                          <i className="fas fa-trash"></i>
+                          <BsTrash />
                         </Button>
                       </Col>
                     </Row>

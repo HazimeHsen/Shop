@@ -8,6 +8,7 @@ import axios from "axios";
 import ErrorCatch from "../../../ErrorCatch";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./CreateProduct.css";
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -41,14 +42,16 @@ export default function CreateProduct() {
   const [name, setName] = useState(
     productId ? product.name : "Sample product" + Date.now()
   );
+  const getImage = localStorage.getItem("image")
+    ? localStorage.getItem("image").split(",")
+    : null;
   const [slug, setSlug] = useState("Sample slug" + Date.now());
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("/image/p1.webp");
+  const [image, setImage] = useState(getImage || []);
   const [category, setCategory] = useState("Sample category");
   const [countInStock, setCountInStock] = useState(0);
   const [brand, setBrand] = useState("Sample brand");
   const [description, setDescription] = useState("Sample product");
-
   useEffect(() => {
     if (productId) {
       const fetchData = async () => {
@@ -73,30 +76,37 @@ export default function CreateProduct() {
   }, [productId]);
   const createProduct = async (e) => {
     e.preventDefault();
-    try {
-      dispatch({ type: "FETCH_REQUEST" });
-      await axios.post(
-        "/api/products/create",
-        {
-          name,
-          slug,
-          price,
-          image,
-          category,
-          countInStock,
-          brand,
-          description,
-        },
-        {
-          headers: { authorization: `Bearer ${userInfo.token}` },
+    if (image == false) {
+      toast.info("Enter Image");
+    } else {
+      try {
+        dispatch({ type: "FETCH_REQUEST" });
+        await axios.post(
+          "/api/products/create",
+          {
+            name,
+            slug,
+            price,
+            image,
+            category,
+            countInStock,
+            brand,
+            description,
+          },
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        dispatch({ type: "FETCH_SUCCESS" });
+        toast.success("Product Created");
+        if (localStorage.getItem("image")) {
+          localStorage.removeItem("image");
         }
-      );
-      dispatch({ type: "FETCH_SUCCESS" });
-      toast.success("Product Created");
-      navigate("/admin/productlist");
-    } catch (error) {
-      dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(error) });
-      toast.error(ErrorCatch(error));
+        navigate("/admin/productlist");
+      } catch (error) {
+        dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(error) });
+        toast.error(ErrorCatch(error));
+      }
     }
   };
   const editProduct = async () => {
@@ -120,6 +130,9 @@ export default function CreateProduct() {
       );
       dispatch({ type: "FETCH_SUCCESS" });
       toast.success("Product Created");
+      if (localStorage.getItem("image")) {
+        localStorage.removeItem("image");
+      }
       navigate("/admin/productlist");
     } catch (error) {
       dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(error) });
@@ -141,7 +154,13 @@ export default function CreateProduct() {
       dispatch({ type: "FETCH_SUCCESS" });
 
       toast.success("Image uploaded successfully");
-      setImage(`/image/${data.filename}`);
+      if (image) {
+        setImage([...image, `/image/${data.filename}`]);
+        localStorage.setItem("image", [...image, `/image/${data.filename}`]);
+      } else {
+        setImage([`/image/${data.filename}`]);
+        localStorage.setItem("image", [`/image/${data.filename}`]);
+      }
     } catch (err) {
       toast.error(ErrorCatch(err));
       dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(err) });
@@ -185,9 +204,23 @@ export default function CreateProduct() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="image">
-            <Form.Label>Image File</Form.Label>
+            <Form.Label className="custom-file-upload image-upload">
+              <span className="me-2">Image File</span>
+              <i className="fa fa-cloud-upload"></i>
+              <input type="file" onChange={uploadFileHandler} required />
+            </Form.Label>
             <br />
-            <input type="file" onChange={uploadFileHandler} required />
+            {image ? (
+              image.map((img) => (
+                <img
+                  className="img-fluid img-thumbnail rounded me-2"
+                  src={img}
+                  alt={img}
+                />
+              ))
+            ) : (
+              <span>No Uploaded Images</span>
+            )}
           </Form.Group>
           <Form.Group className="mb-3" controlId="category">
             <Form.Label>Category</Form.Label>

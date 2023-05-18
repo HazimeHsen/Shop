@@ -132,15 +132,15 @@ export const OrderListScreen = () => {
                   </td>
                   <td>
                     <Button
-                      variant="light"
                       type="button"
+                      className="me-1"
                       onClick={() => {
                         navigate(`/order/${order._id}`);
                       }}>
                       Details
                     </Button>
                     <Button
-                      variant="light"
+                      variant="danger"
                       type="button"
                       onClick={() => {
                         deleteOrder(order._id);

@@ -21,6 +21,7 @@
     "react-router-dom": "^6.7.0",
     "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.1",
+    "swiper": "^9.2.4",
     "use-reducer-logger": "^1.0.2",
     "web-vitals": "^2.1.4"
   },

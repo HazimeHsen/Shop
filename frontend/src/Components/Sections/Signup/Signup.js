@@ -12,6 +12,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [consfirmPassword, setConsfirmPassword] = useState("");
+  const [image, setImage] = useState("/image/no-image.jpg");
 
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get("redirect");
@@ -20,7 +21,7 @@ const Signup = () => {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
-
+  console.log(image);
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== consfirmPassword) {
@@ -31,6 +32,7 @@ const Signup = () => {
       const { data } = await axios.post("/api/users/signup", {
         name,
         email,
+        image,
         password,
       });
       dispatch({ type: "USER_SIGNIN", payload: data });
@@ -45,6 +47,28 @@ const Signup = () => {
       navigate(redirect);
     }
   }, [userInfo, navigate, redirect]);
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("image", file);
+    try {
+      dispatch({ type: "FETCH_REQUEST" });
+      const { data } = await axios.post("/api/upload", bodyFormData);
+      dispatch({ type: "FETCH_SUCCESS" });
+
+      toast.success("Image uploaded successfully");
+      if (image) {
+        setImage(`/image/${data.filename}`);
+        localStorage.setItem("image", `/image/${data.filename}`);
+      } else {
+        setImage(`/image/${data.filename}`);
+        localStorage.setItem("image", `/image/${data.filename}`);
+      }
+    } catch (err) {
+      toast.error(ErrorCatch(err));
+      dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(err) });
+    }
+  };
   return (
     <Container className="small-container">
       <Helmet>
@@ -88,6 +112,21 @@ const Signup = () => {
             type="password"
             placeholder="Confirm Password"
           />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="image">
+          <Form.Label className="custom-file-upload image-upload">
+            <span className="me-2">Image File</span>
+            <i className="fa fa-cloud-upload"></i>
+            <input type="file" onChange={uploadFileHandler} />
+          </Form.Label>
+          <br />
+          {image && (
+            <img
+              className="img-fluid img-thumbnail rounded me-2"
+              src={image}
+              alt={image}
+            />
+          )}
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit

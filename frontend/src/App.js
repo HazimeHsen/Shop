@@ -160,7 +160,7 @@ function App() {
             <Nav.Item>
               <strong>Categories</strong>
             </Nav.Item>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <Nav.Item key={category}>
                 <Link
                   className="nav-link side-search"

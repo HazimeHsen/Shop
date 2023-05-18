@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { GoSearch } from "react-icons/go";
 import "./SearchBox.css";
 
 export default function SearchBox() {
@@ -8,7 +9,7 @@ export default function SearchBox() {
   const [query, setQuery] = useState("");
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate(query ? `/search/?query=${query}` : "/search");
+    navigate(query ? `/search?query=${query}` : "/search");
   };
   return (
     <Form className="" onSubmit={submitHandler}>
@@ -29,7 +30,7 @@ export default function SearchBox() {
           type="submit"
           variant="outline-primary"
           id="button-search">
-          <i className="fas fa-search"></i>
+          <GoSearch />
         </Button>
       </Form.Group>
     </Form>

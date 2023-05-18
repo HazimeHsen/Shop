@@ -5,6 +5,7 @@ import Rating from "../../../Rating/Rating";
 import { Store } from "../../../Store/Store";
 import axios from "axios";
 import "./MainScreenComponents.css";
+import ImageSlider from "../../../Slider/Slider";
 
 const MainScreenComponents = ({ product }) => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -22,9 +23,9 @@ const MainScreenComponents = ({ product }) => {
   return (
     <>
       <Card>
-        <Link to={`/product/${product.slug}`}>
-          <Card.Img src={product.image} alt={product.name} />
-        </Link>
+        <div className="slider-handler">
+          <ImageSlider images={product.image} />
+        </div>
         <Card.Body className="product-info">
           <Link to={`/product/${product.slug}`}>
             <Card.Title title={product.name} className="product-name">

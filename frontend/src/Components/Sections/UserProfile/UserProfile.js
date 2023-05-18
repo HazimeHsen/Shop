@@ -29,8 +29,32 @@ export default function UserProfile() {
   const [email, setEmail] = useState(userInfo?.email ?? "");
 
   const [password, setPassword] = useState("");
+  const [image, setImage] = useState(
+    localStorage.getItem("image") || userInfo?.image
+  );
   const [confirmPassword, setConfirmPassword] = useState("");
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("image", file);
+    try {
+      dispatch({ type: "FETCH_REQUEST" });
+      const { data } = await axios.post("/api/upload", bodyFormData);
+      dispatch({ type: "FETCH_SUCCESS" });
 
+      toast.success("Image uploaded successfully");
+      if (image) {
+        setImage(`/image/${data.filename}`);
+        localStorage.setItem("image", `/image/${data.filename}`);
+      } else {
+        setImage(`/image/${data.filename}`);
+        localStorage.setItem("image", `/image/${data.filename}`);
+      }
+    } catch (err) {
+      toast.error(ErrorCatch(err));
+      dispatch({ type: "FETCH_FAIL", payload: ErrorCatch(err) });
+    }
+  };
   const submitHandler = async (e) => {
     e.preventDefault();
     const { data } = await axios.put(
@@ -38,6 +62,7 @@ export default function UserProfile() {
       {
         name,
         email,
+        image,
         password,
       },
       {
@@ -92,6 +117,21 @@ export default function UserProfile() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          <Form.Group className="mt-3" controlId="image">
+            <Form.Label className="custom-file-upload image-upload">
+              <span className="me-2">Image File</span>
+              <i className="fa fa-cloud-upload"></i>
+              <input type="file" onChange={uploadFileHandler} />
+            </Form.Label>
+            <br />
+            {image && (
+              <img
+                className="img-fluid img-thumbnail rounded me-2"
+                src={image}
+                alt={image}
+              />
+            )}
+          </Form.Group>
         </Form.Group>
         <Button type="submit">Update</Button>
       </Form>

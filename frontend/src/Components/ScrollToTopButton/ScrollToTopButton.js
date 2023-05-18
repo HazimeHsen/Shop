@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./ScrollToTopButton.css";
-
+import { TiArrowUpOutline } from "react-icons/ti";
 export default function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -29,6 +29,7 @@ export default function ScrollToTopButton() {
       className={`scroll-to-top-btn ${isVisible ? "show-scroll" : ""}`}
       onClick={scrollToTop}
       style={{
+        zIndex: 100,
         position: "fixed",
         bottom: "20px",
         right: "20px",
@@ -44,10 +45,10 @@ export default function ScrollToTopButton() {
         fontSize: "20px",
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         cursor: "pointer",
-        opacity: "0",
+        opacity: 0,
         transition: "opacity 0.3s ease",
       }}>
-      <i className="fas fa-chevron-up"></i>
+      <TiArrowUpOutline />
     </button>
   );
 }
